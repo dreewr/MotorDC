@@ -1,0 +1,42 @@
+Dependencies for Project 'CofreDigitalTiva', Target 'Target 1': (DO NOT MODIFY !)
+F (.\startup.s)(0x5BE4598A)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 526" --pd "TM4C1294NCPDT SETA 1"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
+F (.\utils.s)(0x5BF324D5)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 526" --pd "TM4C1294NCPDT SETA 1"--list .\listings\utils.lst --xref -o .\objects\utils.o --depend .\objects\utils.d)
+F (.\tm4c1294ncpdt.h)(0x5BE4598A)()
+F (.\main.c)(0x5BF4866D)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DTM4C1294NCPDT-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F67DE)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F67DC)
+I (gpio.h)(0x5BF474EE)
+I (tm4c1294ncpdt.h)(0x5BE4598A)
+I (utils.h)(0x5BE4598A)
+I (keyboard.h)(0x5BE4598A)
+I (passMotor.h)(0x5BE4598A)
+I (lcd_display.h)(0x5BE4598A)
+F (.\gpio.c)(0x5BF474EE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DTM4C1294NCPDT-o .\objects\gpio.o --omf_browse .\objects\gpio.crf --depend .\objects\gpio.d)
+I (gpio.h)(0x5BF474EE)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F67DE)
+I (tm4c1294ncpdt.h)(0x5BE4598A)
+F (.\gpio.h)(0x5BF474EE)()
+F (.\utils.h)(0x5BE4598A)()
+F (.\keyboard.c)(0x5BE4598A)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DTM4C1294NCPDT-o .\objects\keyboard.o --omf_browse .\objects\keyboard.crf --depend .\objects\keyboard.d)
+I (keyboard.h)(0x5BE4598A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F67DE)
+I (gpio.h)(0x5BF474EE)
+I (tm4c1294ncpdt.h)(0x5BE4598A)
+I (utils.h)(0x5BE4598A)
+F (.\keyboard.h)(0x5BE4598A)()
+F (.\passMotor.c)(0x5BE4598A)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DTM4C1294NCPDT-o .\objects\passmotor.o --omf_browse .\objects\passmotor.crf --depend .\objects\passmotor.d)
+I (keyboard.h)(0x5BE4598A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F67DE)
+I (gpio.h)(0x5BF474EE)
+I (tm4c1294ncpdt.h)(0x5BE4598A)
+I (utils.h)(0x5BE4598A)
+I (passMotor.h)(0x5BE4598A)
+F (.\passMotor.h)(0x5BE4598A)()
+F (.\lcd_display.c)(0x5BE4598A)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DTM4C1294NCPDT-o .\objects\lcd_display.o --omf_browse .\objects\lcd_display.crf --depend .\objects\lcd_display.d)
+I (lcd_display.h)(0x5BE4598A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F67DE)
+I (gpio.h)(0x5BF474EE)
+I (tm4c1294ncpdt.h)(0x5BE4598A)
+I (utils.h)(0x5BE4598A)
+F (.\lcd_display.h)(0x5BE4598A)()
+F (.\adc.c)(0x5BF2DC71)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DTM4C1294NCPDT-o .\objects\adc.o --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
