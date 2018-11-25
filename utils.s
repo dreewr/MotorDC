@@ -51,7 +51,7 @@ SYSCTL_PLLSTAT_LOCK           EQU 0x00000001  ; PLL Lock
         AREA    |.text|, CODE, READONLY, ALIGN=2
         THUMB
         EXPORT  PLL_Init
-
+		
 ;------------PLL_Init------------
 ; Configura o sistema para utilizar o clock do PLL
 ; Entrada: Nenhum
@@ -234,8 +234,12 @@ NVIC_ST_CTRL_R        EQU 0xE000E010
 NVIC_ST_RELOAD_R      EQU 0xE000E014
 NVIC_ST_CURRENT_R     EQU 0xE000E018
 ; -------------------------------------------------------------------------------------------------------------------------	
-        EXPORT  SysTick_Init
+       
+		EXPORT  SysTick_Init
 		EXPORT  SysTick_Wait1ms
+		;EXPORT	ConfigInterruptPortJ
+		;EXPORT 	GPIOPortJ_Handler
+			
 ;------------SysTick_Init------------
 ; Configura o sistema para utilizar o SysTick para delays
 ; Entrada: Nenhum
@@ -292,6 +296,32 @@ SysTick_Wait1ms_loop
 SysTick_Wait1ms_done
 	POP {R4, PC}                        ;return
 
+
+	
+GPIOPortJ_Handler
+		LDR R1, = 0x4006041c	; Limpa no GPIOICR o pino 0 da porta J
+		
+		;LDR R2, =A  ;R2 = &A
+		;MOV R3, 'X'
+		;STR R3, [R2]	; A = 2
+		
+		MOV R0, #0x01			
+		STR R0, [R1]
+		BX LR
+
+; -------------------------------------------------------------------------------
+; Configura a interrupção da porta J
+ConfigInterruptPortJ
+	CPSID  I;			 	; disable interrupts
+	LDR R1, = 0xE000E104 	; Interrupt 32-63 Set Enable ( endereço 0xE000E000, offset 0x104)
+	MOV R0, #0x00080000 	; interrupt 51 (Porta J)
+	STR R0, [R1]
+	
+	LDR R1, = 0x40060410 	; GPIOIM da porta J (endereço 0x4006000, offset 0x410)
+	MOV R0, #0x0000001   	; apenas USR_SW1 (Porta J, pino 0)
+	STR R0, [R1]
+	CPSIE  I         		; enable interrupts
+	BX LR
 ; -------------------------------------------------------------------------------------------------------------------------
 ; Fim do Arquivo
 ; -------------------------------------------------------------------------------------------------------------------------

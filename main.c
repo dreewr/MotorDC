@@ -6,6 +6,8 @@
 
 #include <stdint.h>
 #include <string.h>
+
+
 #include "gpio.h"
 #include "utils.h"
 #include "keyboard.h"
@@ -29,10 +31,22 @@
 #define SPEED_POTENTIOMETER 5
 #define RUN_MOTOR 6
 
+int current_step = START;
+char input_type = ' ';
+char rotation_direction = ' ';
+char keyboard_speed = ' ';
+int selected_speed = -1;
+uint32_t selected_direction = 0;
+int i = 0;
+
+
+/**Function Prototypes**/
+void ConfigInterruptPortC();
+void ConfigInterruptPortJ();
+void GPIOPortJ_Handler(void);
+
 int main(void)
 {
-	//iniciando
-	
 	PLL_Init();
 	SysTick_Init();
 	uint32_t gpio = 
@@ -88,32 +102,27 @@ int main(void)
 	enablePullUp(J,P_ALL);
 	
 	init_display(0);
-	//uint32_t switcher;
 	
-	//PortF_Output(0x4); //iniciliza motor
+
+	ConfigInterruptPortJ();
 	
-	int current_step = START;
-	char input_type = ' ';
-	char rotation_direction = ' ';
-	char keyboard_speed = ' ';
-	int selected_speed = -1;
-	uint32_t selected_direction = 0;
-	int i = 0;
-	
-	
-	//GPIOPortJ_Handler();
 	while(1){
 	
 		switch(current_step){
 			
 			case START:
 				clear_display(0);
+				input_type = ' ';
+				rotation_direction = ' ';
+				keyboard_speed = ' ';
+				selected_speed = -1;
+				uint32_t selected_direction = 0;
 	
 				print_message(0x80, "Motor Parado!");
 				print_message(0xC0, "Tec(1) | Pot(2) "); //mudar para 1 ou 2 se precisar
+				
 			
 			  current_step = INPUT_AQUISITION;
-			
 				break;
 			
 			case INPUT_AQUISITION:
@@ -187,6 +196,7 @@ int main(void)
 						clear_display(0);
 						
 					if(get_kb4x4_value(keyboard_speed)!=0)selected_speed = 40 + 10* get_kb4x4_value(keyboard_speed);
+					
 					else selected_speed = 0;
 						
 						switch (selected_speed){
@@ -226,22 +236,49 @@ int main(void)
 			
 			case RUN_MOTOR:
 
-			while(PortJ_Input() != 0x02){
-
+			
 				set_dc_motor_direction(selected_direction);
+	
 				run_dc_motor(selected_speed , 100-selected_speed);
-			
-			
 
-			}
-
-			current_step = START;
+	
 			break;
 		}
-
 
 	}
 	
 }
 
+void GPIOPortJ_Handler(void){
+	
+	current_step = START;
+	
+	GPIO_PORTJ_AHB_ICR_R  = 0x01;
+	
+}
 
+/*
+Register 4: Interrupt 0-31 Set Enable (EN0), offset 0x100
+Register 5: Interrupt 32-63 Set Enable (EN1), offset 0x104
+Register 6: Interrupt 64-95 Set Enable (EN2), offset 0x108
+Register 7: Interrupt 96-113 Set Enable (EN3), offset 0x10C*/
+
+
+void ConfigInterruptPortJ(){
+DisableInterrupts();
+	
+NVIC_EN1_R |= 0x00080000;  //Interrup 32-63 (endereço 0xE000E000, offset 0x104) seta interrupt 51
+GPIO_PORTJ_AHB_IM_R |= 0x0000010;  //GPIO_IM da porta J (endereço 0x4006000, offset 0x410) apenas USR_SW1 (Porta J, pino 0)
+	
+EnableInterrupts();
+}
+
+void ConfigInterruptPortC(){
+DisableInterrupts();
+	
+NVIC_EN0_R |= 0x00080000;  //Interrup 32-63 (endereço 0xE000E000, offset 0x100) seta interrupt 51
+
+GPIO_PORTC_AHB_IM_R |= 0x0000001;  //GPIO_IM da porta J (endereço 0x4006000, offset 0x410) apenas USR_SW1 (Porta J, pino 0)
+	
+EnableInterrupts();
+}

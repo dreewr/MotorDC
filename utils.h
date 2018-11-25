@@ -20,8 +20,9 @@
 #endif
 typedef int bool;
 
-
 void PLL_Init(void);
 void SysTick_Init(void);
 void SysTick_Wait1ms(uint32_t delay);
+void ConfigInterruptPortJ();
+
 #endif
