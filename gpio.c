@@ -325,21 +325,43 @@ void PortF_Output(uint32_t valor)
     temp = GPIO_PORTF_AHB_DATA_R & ~0x0f;
     temp = temp | valor;
     GPIO_PORTF_AHB_DATA_R = temp; 
-		
-
+	
 }
 
 
-void PortF_TESTE(uint32_t valor)
+void TESTE(uint32_t valor)
 {
-    uint32_t temp;
-	  valor &= ~0xfffffff0;
-    temp = GPIO_PORTF_AHB_DATA_R & ~0x0f;
-    temp = temp | valor;
-    GPIO_PORTF_AHB_DATA_R = temp; 		
+	
+	
+	NVIC_ST_CTRL_R = 0;           // disable SysTick during setup
 
+  NVIC_ST_RELOAD_R = L-1;       // reload value for 500us
+
+  NVIC_ST_CURRENT_R = 0;        // any write to current clears it
+
+  NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000;  // priority 2
+
+  NVIC_ST_CTRL_R = 0x00000007;  // enable with core clock and interrupts
+    
 }
 
+
+void TESTE2(uint32_t valor)
+{
+	//RCGCTIMER = 0x0000;
+	
+	//CPSID = I;
+	//NVIC_ST_CTRL_R = 0;           // disable SysTick during setup
+
+  //NVIC_ST_RELOAD_R = L-1;       // reload value for 500us
+
+  //NVIC_ST_CURRENT_R = 0;        // any write to current clears it
+
+  //NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000;  // priority 2
+
+  //NVIC_ST_CTRL_R = 0x00000007;  // enable with core clock and interrupts
+    
+}
 
 
 

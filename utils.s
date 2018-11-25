@@ -267,7 +267,7 @@ SysTick_Wait
 	STR R0, [R1] 						; delay-1, número de contagens para esperar
 	LDR R1, =NVIC_ST_CTRL_R 			; R1 = &NVIC_ST_CTRL_R
 SysTick_Wait_loop
-jg	LDR R3, [R1] 						; R3 = &NVIC_ST_CTRL_R (ponteiro)
+	LDR R3, [R1] 						; R3 = &NVIC_ST_CTRL_R (ponteiro)
 	ANDS R3, R3, #0x00010000 			; O bit COUNT está setado? (Bit 16)
 	BEQ SysTick_Wait_loop               ; Se sim permanece no loop
 	BX LR                               ; Se não, retorna

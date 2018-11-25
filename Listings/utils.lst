@@ -793,7 +793,7 @@ ARM Macro Assembler    Page 13
   268 00000152 491A            LDR              R1, =NVIC_ST_CTRL_R ; R1 = &NVI
                                                             C_ST_CTRL_R
   269 00000154         SysTick_Wait_loop
-  270 00000154 680B    jg      LDR              R3, [R1]    ; R3 = &NVIC_ST_CTR
+  270 00000154 680B            LDR              R3, [R1]    ; R3 = &NVIC_ST_CTR
                                                             L_R (ponteiro)
   271 00000156 F413 3380       ANDS             R3, R3, #0x00010000 ; O bit COU
                                                             NT está setado? (Bi
@@ -1069,15 +1069,7 @@ Symbol: SysTick_Wait_loop
    Uses
       At line 272 in file utils.s
 Comment: SysTick_Wait_loop used once
-jg 00000154
-
-Symbol: jg
-   Definitions
-      At line 270 in file utils.s
-   Uses
-      None
-Comment: jg unused
-21 symbols
+20 symbols
 
 
 
@@ -1465,4 +1457,4 @@ Symbol: SYSCTL_RSCLKCFG_USEPLL
       At line 225 in file utils.s
 
 42 symbols
-399 symbols in table
+398 symbols in table

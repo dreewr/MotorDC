@@ -111,6 +111,7 @@ void PortM_Output(uint32_t valor);
 //Criadas
 void PortE_Output(uint32_t valor);
 void PortF_Output(uint32_t valor);
-void PortF_TESTE(uint32_t valor);
+void TESTE(uint32_t valor);
+void TESTE2(uint32_t valor);
 
 #endif

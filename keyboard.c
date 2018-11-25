@@ -34,7 +34,7 @@ char kb4x4(int ki){
 	uint32_t v1, v2;
 	PortL_Output(val[ki]);
 	v1 = PortC_Input() >> 4;
-	SysTick_Wait1ms(300);
+	SysTick_Wait1ms(50);
 	v2 = PortC_Input() >> 4;
 	v2 &= 0xF;
 	if(v1 == v2){
@@ -79,4 +79,55 @@ char kb4x4(int ki){
 	}
 	return c;
 
+}
+
+char kb4x4i(int ki){
+	char c = ' ';
+	uint32_t v1, v2;
+	PortL_Output(val[ki]);
+	v1 = PortC_Input() >> 4;
+	SysTick_Wait1ms(50);
+	v2 = PortC_Input() >> 4;
+	v2 &= 0xF;
+	if(v1 == v2){
+		switch(val[ki]){
+			case 0x7: 	
+				switch(v2){
+					case 0x7: c = 'D'; break;
+					case 0xB: c = '#'; break;
+					case 0xD: c = '0'; break;
+					case 0xE: c = '*'; break;
+					default: break;
+				}
+				break;
+			case 0xB: 	
+				switch(v2){
+					case 0x7: c = 'C'; break;
+					case 0xB: c = '9'; break;
+					case 0xD: c = '8'; break;
+					case 0xE: c = '7'; break;
+					default: break;
+				}
+				break;
+			case 0xD: 	
+				switch(v2){
+					case 0x7: c = 'B'; break;
+					case 0xB: c = '6'; break;
+					case 0xD: c = '5'; break;
+					case 0xE: c = '4'; break;
+					default: break;
+				}
+				break;
+			case 0xE: 	
+				switch(v2){
+					case 0x7: c = 'A'; break;
+					case 0xB: c = '3'; break;
+					case 0xD: c = '2'; break;
+					case 0xE: c = '1'; break;
+					default: break;
+				}
+				break;
+		}
+	}
+	return c;
 }

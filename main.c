@@ -18,16 +18,21 @@
 #define CLOCKWISE '1'
 #define COUNTERCLOCKWISE '2'
 
-#define INPUT_AQUISITION 0
-#define DIRECTION_AQUISITION 1
-#define SPEED_AQUISITION 2
-#define SPEED_KEYBOARD 3
-#define SPEED_POTENTIOMETER 4
-#define RUN_MOTOR 5
+#define RUN_CLOCKWISE '*'
+#define RUN_COUNTERCLOCKWISE '#'
+
+#define START 0
+#define INPUT_AQUISITION 1
+#define DIRECTION_AQUISITION 2
+#define SPEED_AQUISITION 3
+#define SPEED_KEYBOARD 4
+#define SPEED_POTENTIOMETER 5
+#define RUN_MOTOR 6
 
 int main(void)
 {
 	//iniciando
+	
 	PLL_Init();
 	SysTick_Init();
 	uint32_t gpio = 
@@ -41,6 +46,7 @@ int main(void)
 	clearAmsel(K);
 	clearAmsel(L);
 	clearAmsel(M);
+	
 	clearPCTL(C);
 	clearPCTL(E);
 	clearPCTL(F);
@@ -49,6 +55,7 @@ int main(void)
 	clearPCTL(K);
 	clearPCTL(L);
 	clearPCTL(M);
+	
 	ioDirection(C, P_NONE);
 	ioDirection(J, P_NONE);
 	ioDirection(E, P0|P1|P2|P3);
@@ -57,6 +64,7 @@ int main(void)
 	ioDirection(K,P_ALL);
 	ioDirection(L,P0|P1|P2|P3);
 	ioDirection(M,P0|P1|P2);
+	
 	clearAfsel(C);
 	clearAfsel(E);
 	clearAfsel(F);
@@ -65,6 +73,7 @@ int main(void)
 	clearAfsel(K); 
 	clearAfsel(L);
 	clearAfsel(M);
+	
 	digitalEnable(C,P4|P5|P6|P7);
 	digitalEnable(J,P0|P1);
 	digitalEnable(E,P0|P1|P2|P3);
@@ -73,112 +82,165 @@ int main(void)
 	digitalEnable(K,P_ALL);
 	digitalEnable(L,P0|P1|P2|P3);
 	digitalEnable(M,P0|P1|P2);
+	digitalEnable(M,P0|P1|P2);
+	
 	enablePullUp(C,P4|P5|P6|P7);
 	enablePullUp(J,P_ALL);
 	
+	init_display(0);
 	//uint32_t switcher;
 	
 	//PortF_Output(0x4); //iniciliza motor
 	
-	int current_step = INPUT_AQUISITION;
+	int current_step = START;
 	char input_type = ' ';
 	char rotation_direction = ' ';
 	char keyboard_speed = ' ';
 	int selected_speed = -1;
+	uint32_t selected_direction = 0;
 	int i = 0;
 	
+	
+	//GPIOPortJ_Handler();
 	while(1){
-		
+	
 		switch(current_step){
-			case INPUT_AQUISITION:
+			
+			case START:
 				clear_display(0);
-				
+	
 				print_message(0x80, "Motor Parado!");
-				print_message(0xC0, "Pot (A) 4x4 (B) "); //mudar para 1 ou 2 se precisar 
-
-				input_type = kb4x4(0);
-
-				//Armazena o input em DIRECTION_CONTROL
-				if(input_type == KEYBOARD || input_type == POTENTIOMETER) current_step = DIRECTION_AQUISITION;
+				print_message(0xC0, "Tec(1) | Pot(2) "); //mudar para 1 ou 2 se precisar
+			
+			  current_step = INPUT_AQUISITION;
+			
+				break;
+			
+			case INPUT_AQUISITION:
+				
+			input_type = kb4x4(i++);
+			if (i >3) i=0;
+			
+				if(input_type == KEYBOARD ) {
+					
+					clear_display(0);
+					print_message(0x80, "Tec. selecionado ");
+					print_message(0xC0, "->(1) | <-(2) "); //mudar para 1 ou 2 se precisar
+					current_step = DIRECTION_AQUISITION;
+					
+				} else if (input_type == POTENTIOMETER){
+					
+					clear_display(0);
+					print_message(0x80, "Pot. selecionado ");
+					print_message(0xC0, "->(1) | <-(2) "); //mudar para 1 ou 2 se precisar
+					current_step = DIRECTION_AQUISITION;
+				}
 				
 				break;
 
 			case DIRECTION_AQUISITION:
 
-				clear_display(0);
+				rotation_direction = kb4x4(i++);
+				if (i >3) i=0;
 
-				if(input_type == KEYBOARD) print_message(0x80, "INPUT: 4X4 ");
-		
-				else if (input_type == POTENTIOMETER) print_message(0x80, "INPUT: POT. ");
+				if(rotation_direction == CLOCKWISE ) {
+						
+						clear_display(0);
+						print_message(0x80, "Sentido -> ");
+						selected_direction = 0x1;
+						current_step = SPEED_AQUISITION;
+						
+					} else if (rotation_direction == COUNTERCLOCKWISE){
+						
+						clear_display(0);
+						selected_direction = 0x2;
+						print_message(0x80, "Sentido <-");
 				
-				print_message(0x80, "-> (1) | <- (2) ");
-
-				//
-				rotation_direction = kb4x4(0);
-				//input_type = kb4x4(i++);
-				//if(i > 3) i = 0;
-				//Pega a direção do giro
-				if(rotation_direction == CLOCKWISE || rotation_direction == COUNTERCLOCKWISE) current_step = SPEED_AQUISITION;
+						current_step = SPEED_AQUISITION;
+					} 
+					
 
 			break;
 
 			case SPEED_AQUISITION:
-				if(input_type == KEYBOARD) current_step = SPEED_KEYBOARD;
 				
-				else if (input_type == POTENTIOMETER) current_step = SPEED_POTENTIOMETER;
-
-				else print_message(0xC0, "DEU RUIM IRMÃO ");
+				
+			
+				if(input_type == KEYBOARD) {print_message(0xC0, "Velocidade (0-6) ");
+																		current_step = SPEED_KEYBOARD;}
+				
+				else if (input_type == POTENTIOMETER) {
+					current_step = SPEED_POTENTIOMETER;
+				}
 			break;
 
 			case SPEED_KEYBOARD:
-		
+			
+			
 				keyboard_speed = kb4x4(i++);
 				if(i > 3) i = 0;
 				
-				if( rotation_direction == '0' || rotation_direction == '1' || rotation_direction == '2' ||
-					rotation_direction == '3' || rotation_direction == '4' || rotation_direction == '5' ||
-					rotation_direction == '6' ) {
-
-					selected_speed = get_kb4x4_value(keyboard_speed);
+				if( keyboard_speed == '0' || keyboard_speed == '1' || keyboard_speed == '2' ||
+					keyboard_speed == '3' || keyboard_speed == '4' || keyboard_speed == '5' ||
+					keyboard_speed == '6' ) {
+					
+						clear_display(0);
+						
+					if(get_kb4x4_value(keyboard_speed)!=0)selected_speed = 40 + 10* get_kb4x4_value(keyboard_speed);
+					else selected_speed = 0;
+						
+						switch (selected_speed){
+							case 0: 
+								print_message(0x80, "Motor parado! ");
+								break;
+							case 50: 
+								print_message(0x80, "V. em 50% ");
+								break;
+							case 60: 
+								print_message(0x80, "V. em 60% ");
+								break;
+							case 70: 
+								print_message(0x80, "V. em 70% ");
+								break;
+							case 80: 
+								print_message(0x80, "V. em 80% ");
+								break;
+							case 90: 
+								print_message(0x80, "V. em 90% ");
+								break;
+							case 100: 
+								print_message(0x80, "V. em 100% ");
+								break;
+						
+						}
+						
 					current_step = RUN_MOTOR;
 				}
 
 			break;
+			
 			case SPEED_POTENTIOMETER:
 
 			//Espera o fetch dos dados do adc e roda motor
 			current_step = RUN_MOTOR;
-			default: break;
+			
 			case RUN_MOTOR:
 
-			while(PortJ_Input() != 0x03){
+			while(PortJ_Input() != 0x02){
 
-			//run_motor
-			run_motor(9999);
-			//A qualquer momento, se o botão ‘*’ for pressionado o motor deve alterar 
-			//a rotação para  girar no sentido horário e se o botão ‘#’
- 			//for pressionado o motor deve girar no sentido anti-horário;
+				set_dc_motor_direction(selected_direction);
+				run_dc_motor(selected_speed , 100-selected_speed);
+			
+			
 
+			}
 
-			}	
-
-			current_step = INPUT_AQUISITION;
+			current_step = START;
 			break;
 		}
 
+
 	}
-		/*Código antigo
-		if(PortJ_Input() == 0x02){
-		PortE_Output(0x1); //horário
-	
-		PortF_Output(0x004);}
-	
-		else {
-		PortE_Output(0x02); //horário
-		PortF_Output(0x000); //iniciliza motor <---PWM
-		} Fim do código antigo*/
-	
-		
 	
 }
 

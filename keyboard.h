@@ -11,5 +11,6 @@
 
 char kb4x4(int ki);
 int get_kb4x4_value (char selected_key);
+char kb4x4i(int ki);
 
 #endif
