@@ -43,6 +43,7 @@ int i = 0;
 /**Function Prototypes**/
 void ConfigInterruptPortC();
 void ConfigInterruptPortJ();
+void GPIOPortC_Handler(void);
 void GPIOPortJ_Handler(void);
 
 int main(void)
@@ -234,6 +235,8 @@ int main(void)
 			//Espera o fetch dos dados do adc e roda motor
 			current_step = RUN_MOTOR;
 			
+			//!!!!!!!!!!!!//
+			ConfigInterruptPortC();
 			case RUN_MOTOR:
 
 			
@@ -252,10 +255,18 @@ int main(void)
 void GPIOPortJ_Handler(void){
 	
 	current_step = START;
-	
 	GPIO_PORTJ_AHB_ICR_R  = 0x01;
 	
 }
+
+void GPIOPortC_Handler(void){
+	
+	clear_display(0);
+	print_message(0x80, "ÊPA ÊPA ");
+	
+}
+
+
 
 /*
 Register 4: Interrupt 0-31 Set Enable (EN0), offset 0x100
@@ -268,7 +279,7 @@ void ConfigInterruptPortJ(){
 DisableInterrupts();
 	
 NVIC_EN1_R |= 0x00080000;  //Interrup 32-63 (endereço 0xE000E000, offset 0x104) seta interrupt 51
-GPIO_PORTJ_AHB_IM_R |= 0x0000010;  //GPIO_IM da porta J (endereço 0x4006000, offset 0x410) apenas USR_SW1 (Porta J, pino 0)
+GPIO_PORTJ_AHB_IM_R |= 0x00000001;  //GPIO_IM da porta J (endereço 0x4006000, offset 0x410) apenas USR_SW1 (Porta J, pino 0)
 	
 EnableInterrupts();
 }
@@ -276,9 +287,9 @@ EnableInterrupts();
 void ConfigInterruptPortC(){
 DisableInterrupts();
 	
-NVIC_EN0_R |= 0x00080000;  //Interrup 32-63 (endereço 0xE000E000, offset 0x100) seta interrupt 51
+NVIC_EN0_R |= 0x04;  //Interrup 32-63 (endereço 0xE000E000, offset 0x100) seta interrupt 51
 
-GPIO_PORTC_AHB_IM_R |= 0x0000001;  //GPIO_IM da porta J (endereço 0x4006000, offset 0x410) apenas USR_SW1 (Porta J, pino 0)
+GPIO_PORTC_AHB_IM_R |= 0xB;  //GPIO_IM da porta J (endereço 0x4006000, offset 0x410) apenas USR_SW1 (Porta J, pino 0)
 	
 EnableInterrupts();
 }
