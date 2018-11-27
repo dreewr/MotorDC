@@ -32,26 +32,34 @@ utils.h(26): warning:  #1295-D: Deprecated declaration ConfigInterruptPortJ - gi
   void ConfigInterruptPortJ();
 dcMotor.h(10): warning:  #1-D: last line of file ends without a newline
   #endif
-main.c(44): warning:  #1295-D: Deprecated declaration ConfigInterruptPortC - give arg types
+main.c(48): warning:  #1295-D: Deprecated declaration ConfigInterruptPortC - give arg types
   void ConfigInterruptPortC();
-main.c(45): warning:  #1295-D: Deprecated declaration ConfigInterruptPortJ - give arg types
+main.c(49): warning:  #1295-D: Deprecated declaration ConfigInterruptPortJ - give arg types
   void ConfigInterruptPortJ();
-main.c(112): warning:  #546-D: transfer of control bypasses initialization of:
-            variable "selected_direction"  (declared at line 120)
+main.c(53): warning:  #1295-D: Deprecated declaration dc_motor_init - give arg types
+  void dc_motor_init();
+main.c(54): warning:  #1295-D: Deprecated declaration disable_systick - give arg types
+  void disable_systick();
+main.c(55): warning:  #1295-D: Deprecated declaration enable_systick - give arg types
+  void enable_systick();
+main.c(131): warning:  #550-D: variable "selected_direction"  was set but never used
+  				uint32_t selected_direction = 0;
+main.c(123): warning:  #546-D: transfer of control bypasses initialization of:
+            variable "selected_direction"  (declared at line 131)
   		switch(current_step){
   		^
-main.c(280): warning:  #223-D: function "DisableInterrupts" declared implicitly
+main.c(328): warning:  #223-D: function "DisableInterrupts" declared implicitly
   DisableInterrupts();
-main.c(285): warning:  #223-D: function "EnableInterrupts" declared implicitly
+main.c(333): warning:  #223-D: function "EnableInterrupts" declared implicitly
   EnableInterrupts();
-main.c(289): warning:  #223-D: function "DisableInterrupts" declared implicitly
+main.c(338): warning:  #223-D: function "DisableInterrupts" declared implicitly
   DisableInterrupts();
-main.c(295): warning:  #223-D: function "EnableInterrupts" declared implicitly
+main.c(344): warning:  #223-D: function "EnableInterrupts" declared implicitly
   EnableInterrupts();
-main.c: 9 warnings, 0 errors
+main.c: 13 warnings, 0 errors
 linking...
-Program Size: Code=4916 RO-data=76 RW-data=20 ZI-data=1124  
-".\Objects\CofreDigitalTiva.axf" - 0 Error(s), 9 Warning(s).
+Program Size: Code=4932 RO-data=76 RW-data=28 ZI-data=1124  
+".\Objects\CofreDigitalTiva.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 

@@ -2,7 +2,7 @@ Dependencies for Project 'MotorDC', Target 'Target 1': (DO NOT MODIFY !)
 F (.\startup.s)(0x5BFACEFE)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 525" --pd "TM4C1294NCPDT SETA 1"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
 F (.\utils.s)(0x5BFAE5CB)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 525" --pd "TM4C1294NCPDT SETA 1"--list .\listings\utils.lst --xref -o .\objects\utils.o --depend .\objects\utils.d)
 F (.\tm4c1294ncpdt.h)(0x5BE4598A)()
-F (.\main.c)(0x5BFC3CD4)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DTM4C1294NCPDT-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.c)(0x5BFD8306)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DTM4C1294NCPDT-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F67DE)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F67DC)
 I (gpio.h)(0x5BF61F38)
@@ -41,7 +41,7 @@ I (utils.h)(0x5BFAD6F5)
 F (.\lcd_display.h)(0x5BE4598A)()
 F (.\adc.c)(0x5BF2DC71)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DTM4C1294NCPDT-o .\objects\adc.o --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
 F (.\dcMotor.h)(0x5BF9FDCF)()
-F (.\dcMotor.c)(0x5BF9FDD0)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DTM4C1294NCPDT-o .\objects\dcmotor.o --omf_browse .\objects\dcmotor.crf --depend .\objects\dcmotor.d)
+F (.\dcMotor.c)(0x5BFD7062)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DTM4C1294NCPDT-o .\objects\dcmotor.o --omf_browse .\objects\dcmotor.crf --depend .\objects\dcmotor.d)
 I (lcd_display.h)(0x5BE4598A)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F67DE)
 I (gpio.h)(0x5BF61F38)

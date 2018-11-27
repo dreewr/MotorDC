@@ -9,7 +9,7 @@
 //duty cycle base: 50ms, que pode ir pra mais ou pra menos
 void run_dc_motor(int on, int off){
 	
-	PortF_Output(0x4);
+	PortF_Output(0x4); //Porta F3 recebe 1
 	SysTick_Wait1ms(on);	
 	
 	PortF_Output(0x0);
@@ -22,3 +22,8 @@ void set_dc_motor_direction(uint32_t direction){
 	PortE_Output(direction); //horário
 	
 }
+
+
+	
+	
+	

@@ -39,12 +39,20 @@ int selected_speed = -1;
 uint32_t selected_direction = 0;
 int i = 0;
 
+/*teste*/
+// L range: 8000,16000,24000,32000,40000,48000,56000,64000,72000
+// power:   10%    20%   30%   40%   50%   60%   70%   80%   90%
+unsigned long high, low = 8000; //valor pro systick
 
 /**Function Prototypes**/
 void ConfigInterruptPortC();
 void ConfigInterruptPortJ();
 void GPIOPortC_Handler(void);
 void GPIOPortJ_Handler(void);
+
+void dc_motor_init();
+void disable_systick();
+void enable_systick();
 
 int main(void)
 {
@@ -102,8 +110,11 @@ int main(void)
 	enablePullUp(C,P4|P5|P6|P7);
 	enablePullUp(J,P_ALL);
 	
-	init_display(0);
 	
+	init_display(0);
+
+	set_dc_motor_direction(0x2);
+	dc_motor_init();
 
 	ConfigInterruptPortJ();
 	
@@ -225,7 +236,7 @@ int main(void)
 						
 						}
 						
-					current_step = RUN_MOTOR;
+					//current_step = RUN_MOTOR;
 				}
 
 			break;
@@ -235,21 +246,56 @@ int main(void)
 			//Espera o fetch dos dados do adc e roda motor
 			current_step = RUN_MOTOR;
 			
-			//!!!!!!!!!!!!//
-			ConfigInterruptPortC();
-			case RUN_MOTOR:
-
-			
-				set_dc_motor_direction(selected_direction);
+			//ConfigInterruptPortC();
 	
-				run_dc_motor(selected_speed , 100-selected_speed);
-
+			case RUN_MOTOR:
+				
 	
 			break;
+			
 		}
 
 	}
 	
+}
+
+
+void dc_motor_init(){
+//inicializei a porta F
+	
+	NVIC_ST_CTRL_R = 0;             // disable SysTick during setup
+
+  NVIC_ST_RELOAD_R = low-1;       // reload value for 500us
+
+  NVIC_ST_CURRENT_R = 0;          // any write to current clears it
+
+  NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000; // priority 2
+
+	//dar o enable pra ligar
+  NVIC_ST_CTRL_R = 0x00000007;  // enable with core clock and interrupts
+
+}
+
+
+void SysTick_Handler(void){
+
+  if(GPIO_PORTF_AHB_DATA_R&0x4){   // toggle PA5
+
+    //GPIO_PORTF_AHB_DATA_R &= ; // make PA5 low
+		
+		PortF_Output(0x0);
+
+    NVIC_ST_RELOAD_R = low-1;     // reload value for low phase
+
+  } else{
+
+    //GPIO_PORTF_AHB_DATA_R |= 0x4;  // make PA5 high
+		PortF_Output(0x4);
+
+    NVIC_ST_RELOAD_R = high-1;     // reload value for high phase
+
+  }
+
 }
 
 void GPIOPortJ_Handler(void){
@@ -258,6 +304,7 @@ void GPIOPortJ_Handler(void){
 	GPIO_PORTJ_AHB_ICR_R  = 0x01;
 	
 }
+
 
 void GPIOPortC_Handler(void){
 	
@@ -268,11 +315,13 @@ void GPIOPortC_Handler(void){
 
 
 
+
 /*
 Register 4: Interrupt 0-31 Set Enable (EN0), offset 0x100
 Register 5: Interrupt 32-63 Set Enable (EN1), offset 0x104
 Register 6: Interrupt 64-95 Set Enable (EN2), offset 0x108
 Register 7: Interrupt 96-113 Set Enable (EN3), offset 0x10C*/
+
 
 
 void ConfigInterruptPortJ(){
@@ -283,6 +332,7 @@ GPIO_PORTJ_AHB_IM_R |= 0x00000001;  //GPIO_IM da porta J (endereço 0x4006000, o
 	
 EnableInterrupts();
 }
+
 
 void ConfigInterruptPortC(){
 DisableInterrupts();
